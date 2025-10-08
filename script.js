@@ -7,6 +7,8 @@
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   const scene = new THREE.Scene();
 
@@ -15,14 +17,20 @@
   scene.add(camera);
 
   // Lights
-  const hemi = new THREE.HemisphereLight(0xb9ffe0, 0x0a0a0a, 0.8);
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x4a90e2, 0.6);
   scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xffffff, 1.1);
+  const key = new THREE.DirectionalLight(0xffffff, 1.2);
   key.position.set(3, 4, 5);
+  key.castShadow = true;
+  key.shadow.mapSize.width = 2048;
+  key.shadow.mapSize.height = 2048;
   scene.add(key);
-  const rim = new THREE.DirectionalLight(0x66ffbb, 0.5);
+  const rim = new THREE.DirectionalLight(0x87ceeb, 0.4);
   rim.position.set(-4, 3, -2);
   scene.add(rim);
+  const fill = new THREE.DirectionalLight(0xffffff, 0.3);
+  fill.position.set(-2, 2, 3);
+  scene.add(fill);
 
   // Cup geometry (lathe with subtle taper)
   const points = [];
@@ -69,14 +77,15 @@
 
   const outerMat = new THREE.MeshPhysicalMaterial({
     color: 0x2dbb6f,
-    metalness: 0.05,
-    roughness: 0.35,
-    clearcoat: 0.5,
-    clearcoatRoughness: 0.25,
-    sheen: 0.3,
-    sheenColor: new THREE.Color(0xcff7e1),
+    metalness: 0.02,
+    roughness: 0.15,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.1,
+    sheen: 0.1,
+    sheenColor: new THREE.Color(0xffffff),
     transmission: 0.0,
-    envMapIntensity: 1.0,
+    envMapIntensity: 1.2,
+    reflectivity: 0.9,
   });
 
   let cup;
@@ -90,16 +99,25 @@
     });
   }
 
-  cup.castShadow = false; cup.receiveShadow = false;
+  cup.castShadow = true; cup.receiveShadow = true;
   scene.add(cup);
 
-  // Subtle ground reflection plane for depth
+  // Realistic ground reflection plane
   const ground = new THREE.Mesh(
     new THREE.CircleGeometry(3.2, 64),
-    new THREE.MeshStandardMaterial({ color: 0x0a0b0a, roughness: 0.9, metalness: 0.0, transparent: true, opacity: 0.45 })
+    new THREE.MeshPhysicalMaterial({ 
+      color: 0xe6f3ff, 
+      roughness: 0.1, 
+      metalness: 0.0, 
+      transparent: true, 
+      opacity: 0.3,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.1
+    })
   );
   ground.rotateX(-Math.PI / 2);
   ground.position.y = -height / 2 - 0.05;
+  ground.receiveShadow = true;
   scene.add(ground);
 
   function resize() {
