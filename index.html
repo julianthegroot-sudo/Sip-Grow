@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sip&Grow — Sustainable Cup</title>
+    <meta name="description" content="Sip&Grow is developing a sustainable, reusable cup. Join us on our journey to reduce waste.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">
+                <div class="logo-circle" aria-hidden="true"></div>
+                <span class="brand-name">Sip&amp;Grow</span>
+            </div>
+            <nav class="nav">
+                <a href="#about">About</a>
+                <a href="#sustainability">Sustainability</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Spinning cup hero">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="hero-overlay">
+                <h1>Drink. Rinse. Repeat.</h1>
+                <p>We’re crafting a sustainable cup you’ll love to reuse.</p>
+                <a class="cta" href="#contact">Get updates</a>
+            </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="container">
+                <h2>About Sip&amp;Grow</h2>
+                <p>
+                    Sip&amp;Grow is on a mission to reduce single-use waste with a cup that’s durable,
+                    repairable, and designed for the circular economy. From materials to lifecycle,
+                    every detail is engineered for longevity and minimal footprint.
+                </p>
+            </div>
+        </section>
+
+        <section id="sustainability" class="content-section alt">
+            <div class="container">
+                <h2>Sustainability First</h2>
+                <ul class="bullets">
+                    <li><strong>Responsible materials</strong> chosen for durability and recyclability.</li>
+                    <li><strong>Modular design</strong> so parts can be replaced instead of discarded.</li>
+                    <li><strong>End-of-life</strong> take-back program planned for true circularity.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section">
+            <div class="container">
+                <h2>Stay in the loop</h2>
+                <form class="signup" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch.');">
+                    <input type="email" placeholder="you@example.com" aria-label="Email address" required />
+                    <button type="submit">Notify me</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span>&copy; <span id="year"></span> Sip&amp;Grow</span>
+            <span>Made with care for the planet</span>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script src="script.js" defer></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
+
