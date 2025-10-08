@@ -32,44 +32,47 @@
   fill.position.set(-2, 2, 3);
   scene.add(fill);
 
-  // Cup geometry (lathe with subtle taper)
-  const points = [];
-  const height = 1.6; // cup height
-  const radiusTop = 0.55; // rim
-  const radiusBottom = 0.35; // base
+  // Coffee cup geometry with handle
+  const height = 1.6;
+  const radiusTop = 0.55;
+  const radiusBottom = 0.35;
   const wallThickness = 0.06;
   const segments = 20;
 
-  // Outer profile
+  // Main cup body (outer profile)
+  const points = [];
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
-    const y = -height / 2 + t * height; // from -h/2 to +h/2
+    const y = -height / 2 + t * height;
     const r = radiusBottom + (radiusTop - radiusBottom) * Math.pow(t, 0.92) + 0.02 * Math.sin(t * Math.PI);
     points.push(new THREE.Vector2(r, y));
   }
   const outerGeo = new THREE.LatheGeometry(points, 96);
 
-  // Inner profile (offset inward), invert normals by reversing points
+  // Inner profile
   const innerPoints = [];
   for (let i = 0; i <= segments; i++) {
     const t = i / segments;
-    const y = -height / 2 + t * height - 0.02; // slight inner offset
+    const y = -height / 2 + t * height - 0.02;
     const r = Math.max(0.01, (radiusBottom - wallThickness) + (radiusTop - wallThickness - (radiusBottom - wallThickness)) * Math.pow(t, 0.92));
     innerPoints.push(new THREE.Vector2(r, y));
   }
   const innerGeo = new THREE.LatheGeometry(innerPoints, 96);
-  innerGeo.scale(1, 1, 1);
-  innerGeo.rotateX(Math.PI); // flip normals
+  innerGeo.rotateX(Math.PI);
 
-  // Base disk to close bottom
+  // Base
   const baseGeo = new THREE.CircleGeometry(radiusBottom - wallThickness * 0.7, 64);
   baseGeo.translate(0, -height / 2 + 0.02, 0);
   baseGeo.rotateX(-Math.PI / 2);
 
-  // Merge into single geometry
-  const geometries = [outerGeo, innerGeo, baseGeo];
+  // Coffee cup handle
+  const handleGeo = new THREE.TorusGeometry(0.15, 0.03, 8, 16, Math.PI);
+  handleGeo.translate(radiusTop + 0.1, 0, 0);
+  handleGeo.rotateZ(Math.PI / 2);
+
+  // Merge geometries
+  const geometries = [outerGeo, innerGeo, baseGeo, handleGeo];
   const cupGeometry = THREE.BufferGeometryUtils ? THREE.BufferGeometryUtils.mergeGeometries(geometries, false) : (() => {
-    // Fallback: use a group if BufferGeometryUtils isn't available
     const group = new THREE.Group();
     geometries.forEach(g => group.add(new THREE.Mesh(g)));
     return group;
@@ -106,11 +109,11 @@
   const ground = new THREE.Mesh(
     new THREE.CircleGeometry(3.2, 64),
     new THREE.MeshPhysicalMaterial({ 
-      color: 0xe6f3ff, 
+      color: 0x4a90e2, 
       roughness: 0.1, 
       metalness: 0.0, 
       transparent: true, 
-      opacity: 0.3,
+      opacity: 0.2,
       clearcoat: 0.9,
       clearcoatRoughness: 0.1
     })
