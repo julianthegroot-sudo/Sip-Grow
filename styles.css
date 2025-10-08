@@ -38,7 +38,7 @@ body {
   padding: 16px 0;
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; }
-.logo-circle { width: 24px; height: 24px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 24px rgba(45,187,111,0.6); }
+.brand-logo { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(45,187,111,0.25)); }
 .brand-name { font-weight: 800; letter-spacing: 0.2px; }
 .nav a { color: var(--text); text-decoration: none; margin-left: 18px; opacity: 0.9; }
 .nav a:hover { color: var(--brand); }
