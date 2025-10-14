@@ -1,0 +1,10 @@
+{
+  "/about/page": "app/about/page.js",
+  "/api/contact/route": "app/api/contact/route.js",
+  "/api/subscribe/route": "app/api/subscribe/route.js",
+  "/blog/page": "app/blog/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/sustainability/page": "app/sustainability/page.js"
+}
